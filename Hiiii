@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Profile</title>
+  <link rel="stylesheet" href="styles.css">
+  <meta name="description" content="Personal profile — pink theme with HELLO!!!!">
+</head>
+<body>
+  <header class="site-header">
+    <div class="profile">
+      <!-- Replace `assets/profile.jpg` with your own image or keep the placeholder -->
+      <img src="assets/profile.jpg" alt="Profile photo" class="profile-img">
+      <div class="profile-name">Your Name</div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <h1 class="hello">HELLO!!!!</h1>
+
+    <section class="intro">
+      <p>Welcome — this is a simple personal profile page. Replace this paragraph with a short bio, links, or anything you like.</p>
+
+      <div class="links">
+        <a href="#" class="btn">About</a>
+        <a href="#" class="btn">Projects</a>
+        <a href="#" class="btn">Contact</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <small>Made with 💖</small>
+  </footer>
+</body>
+</html>
