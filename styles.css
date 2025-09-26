@@ -1,51 +1,21 @@
-:root {
-  --accent-purple: #CB9DF0; /* New HELLO!!!! color */
-  --bg-1: #ffdde9;          /* light pink */
-  --bg-2: #ffb6c1;          /* deeper pink */
-  --profile-size: 80px;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
-}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>My Profile</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="profile">
+      <img src="assets/profile.jpg" alt="Profile photo" class="profile-img">
+      <div class="profile-name">Your Name</div>
+    </div>
+  </header>
 
-* { box-sizing: border-box; }
-html, body { height: 100%; margin: 0; }
-
-/* Background pink ombre */
-body {
-  min-height: 100%;
-  background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Profile top-right */
-.site-header {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.profile-img {
-  width: var(--profile-size);
-  height: var(--profile-size);
-  border-radius: 50%;
-  border: 3px solid white;
-  object-fit: cover;
-}
-.profile-name {
-  font-weight: 600;
-  font-size: 14px;
-}
-
-/* HELLO!!!! centered */
-.hello {
-  margin: 0;
-  font-size: clamp(48px, 12vw, 120px);
-  color: var(--accent-purple);
-  font-weight: 900;
-  text-align: center;
-}
+  <main class="hero">
+    <h1 class="hello">HELLO!!!!</h1>
+  </main>
+</body>
+</html>
