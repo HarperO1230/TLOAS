@@ -1,21 +1,3 @@
-// 🎉 Continuous rainbow confetti
-(function continuousConfetti() {
-  (function frame() {
-    confetti({
-      particleCount: 5,
-      startVelocity: 20,
-      spread: 360,
-      ticks: 200,
-      origin: {
-        x: Math.random(),
-        y: 0
-      },
-      colors: ['#FF0000','#FF7F00','#FFFF00','#00FF00','#0000FF','#4B0082','#8F00FF']
-    });
-    requestAnimationFrame(frame);
-  })();
-})();
-
 // 🖼️ Profile image change
 const profileImg = document.getElementById("profile-img");
 const profileUpload = document.getElementById("profile-upload");
