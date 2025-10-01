@@ -12,20 +12,27 @@
       padding: 0;
       background-color: #F87540; /* solid background */
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
       height: 100vh;
       font-family: 'Alfa Slab One', serif;
+      color: #77BDA2; /* unified text color */
+      text-align: center;
+    }
+
+    #title {
+      font-size: 40px; /* smaller than countdown */
+      margin-bottom: 20px;
     }
 
     #countdown {
       font-size: 80px;
-      color: #77BDA2; /* countdown color */
-      text-align: center;
     }
   </style>
 </head>
 <body>
+  <div id="title">"The Life of a Showgirl" is released in:</div>
   <div id="countdown"></div>
 
   <script>
