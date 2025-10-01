@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Taylor Swift Countdown & Games</title>
-  <!-- Google Font Import -->
+  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
   <style>
     body {
@@ -16,20 +16,17 @@
       text-align: center;
       color: white;
     }
-
     #title {
       font-size: 42px;
       margin-top: 30px;
       margin-bottom: 20px;
       color: #77BDA2;
     }
-
     #countdown {
       font-size: 85px;
       color: #93C9A7;
       margin-bottom: 40px;
     }
-
     section {
       margin: 50px auto;
       max-width: 800px;
@@ -37,12 +34,10 @@
       background: rgba(0,0,0,0.6);
       border-radius: 15px;
     }
-
     h2 {
       color: #93C9A7;
       margin-bottom: 15px;
     }
-
     button {
       background: #77BDA2;
       color: white;
@@ -53,17 +48,23 @@
       cursor: pointer;
       font-size: 18px;
     }
-
     button:hover {
       background: #93C9A7;
     }
-
-    #question, #lyric {
-      font-size: 24px;
-      margin: 20px 0;
-      color: #fff;
+    .choice {
+      display: block;
+      margin: 8px auto;
+      padding: 10px 20px;
+      font-size: 18px;
+      background: #93C9A7;
+      border-radius: 5px;
+      cursor: pointer;
+      color: white;
+      border: none;
+      width: 60%;
     }
-
+    .choice:hover { background: #77BDA2; }
+    #question, #lyric { font-size: 24px; margin: 20px 0; color: #fff; }
     input[type="text"] {
       padding: 10px;
       font-size: 18px;
@@ -71,12 +72,7 @@
       border: 1px solid #ccc;
       width: 60%;
     }
-
-    #answer, #lyricAnswer {
-      margin-top: 15px;
-      font-size: 20px;
-      color: #FDE2FF;
-    }
+    #answer, #lyricAnswer { margin-top: 15px; font-size: 20px; color: #FDE2FF; }
   </style>
 </head>
 <body>
@@ -87,8 +83,8 @@
   <section>
     <h2>Taylor Swift Trivia Game 🎤</h2>
     <div id="question"></div>
+    <div id="choices"></div>
     <div id="answer"></div>
-    <button onclick="showAnswer()">Show Answer</button>
   </section>
 
   <!-- Fill in the Blank Game -->
@@ -101,76 +97,88 @@
   </section>
 
   <script>
-    // Countdown
+    /* ---------------- COUNTDOWN ---------------- */
     function updateCountdown() {
       const targetDate = new Date("October 3, 2025 00:00:00").getTime();
       const now = new Date().getTime();
       const distance = targetDate - now;
-
       if (distance < 0) {
         document.getElementById("countdown").innerHTML = "It's 10/3!";
         return;
       }
-
       const days = Math.floor(distance / (1000 * 60 * 60 * 24));
       const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
       document.getElementById("countdown").innerHTML =
         days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
     }
-    setInterval(updateCountdown, 1000);
-    updateCountdown();
+    setInterval(updateCountdown, 1000); updateCountdown();
 
-    // Trivia Questions
-    const trivia = [
-      {q: "What year was Taylor Swift born?", a: "1989"},
-      {q: "Which Taylor Swift album includes 'Love Story'?", a: "Fearless"},
-      {q: "What is Taylor Swift’s middle name?", a: "Alison"},
-      // ... add all 100 total
+    /* ---------------- TRIVIA ---------------- */
+    let trivia = [
+      { q: "What year was Taylor Swift born?", a: "1989", options: ["1987","1988","1989","1990"] },
+      { q: "Which Taylor Swift album includes 'Love Story'?", a: "Fearless", options: ["Speak Now","Fearless","Red","1989"] },
+      { q: "What is Taylor Swift’s middle name?", a: "Alison", options: ["Ann","Marie","Alison","Elizabeth"] },
+      { q: "Which song won Taylor her first Grammy?", a: "White Horse", options: ["Love Story","White Horse","You Belong With Me","Tim McGraw"] },
+      // ... add until 100 total
     ];
-
-    let currentTrivia;
-    function nextQuestion() {
-      currentTrivia = trivia[Math.floor(Math.random() * trivia.length)];
-      document.getElementById("question").innerHTML = currentTrivia.q;
+    let triviaIndex = 0;
+    function shuffleArray(arr){ for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} }
+    shuffleArray(trivia);
+    function loadQuestion() {
+      if (triviaIndex >= trivia.length) { triviaIndex=0; shuffleArray(trivia); }
+      let current = trivia[triviaIndex];
+      document.getElementById("question").innerHTML = current.q;
       document.getElementById("answer").innerHTML = "";
+      let choiceHTML = "";
+      shuffleArray(current.options);
+      current.options.forEach(opt => {
+        choiceHTML += `<button class="choice" onclick="checkAnswer('${opt}')">${opt}</button>`;
+      });
+      document.getElementById("choices").innerHTML = choiceHTML;
+    }
+    function checkAnswer(choice) {
+      let current = trivia[triviaIndex];
+      if (choice === current.a) {
+        document.getElementById("answer").innerHTML = "✅ Correct!";
+      } else {
+        document.getElementById("answer").innerHTML = "❌ Correct answer: " + current.a;
+      }
+      triviaIndex++;
+      setTimeout(loadQuestion, 1500);
     }
 
-    function showAnswer() {
-      document.getElementById("answer").innerHTML = "Answer: " + currentTrivia.a;
-      setTimeout(nextQuestion, 1500); // new question after 1.5 seconds
-    }
-
-    // Fill-in-the-Blank
-    const lyrics = [
-      {line: "Cause baby now we got ___", missing: "bad blood"},
-      {line: "I knew you were ___ when you walked in", missing: "trouble"},
-      {line: "We are never ever getting ___ together", missing: "back"},
-      // ... add all 50 total
+    /* ---------------- LYRICS ---------------- */
+    let lyrics = [
+      { line: "Cause baby now we got ___", missing: "bad blood" },
+      { line: "I knew you were ___ when you walked in", missing: "trouble" },
+      { line: "We are never ever getting ___ together", missing: "back" },
+      // ... add until 50 total
     ];
-
-    let currentLyric;
+    let lyricIndex = 0;
+    shuffleArray(lyrics);
     function nextLyric() {
-      currentLyric = lyrics[Math.floor(Math.random() * lyrics.length)];
-      document.getElementById("lyric").innerHTML = currentLyric.line;
+      if (lyricIndex >= lyrics.length) { lyricIndex=0; shuffleArray(lyrics); }
+      let current = lyrics[lyricIndex];
+      document.getElementById("lyric").innerHTML = current.line;
       document.getElementById("lyricAnswer").innerHTML = "";
       document.getElementById("userInput").value = "";
     }
-
     function checkLyric() {
-      const userGuess = document.getElementById("userInput").value.trim().toLowerCase();
-      if (userGuess === currentLyric.missing.toLowerCase()) {
+      let current = lyrics[lyricIndex];
+      let guess = document.getElementById("userInput").value.trim().toLowerCase();
+      if (guess === current.missing.toLowerCase()) {
         document.getElementById("lyricAnswer").innerHTML = "✅ Correct!";
       } else {
-        document.getElementById("lyricAnswer").innerHTML = "❌ The correct answer is: " + currentLyric.missing;
+        document.getElementById("lyricAnswer").innerHTML = "❌ The correct answer is: " + current.missing;
       }
-      setTimeout(nextLyric, 1500); // new lyric after 1.5 seconds
+      lyricIndex++;
+      setTimeout(nextLyric, 1500);
     }
 
-    // Start games on load
-    nextQuestion();
+    /* ---------------- INIT ---------------- */
+    loadQuestion();
     nextLyric();
   </script>
 </body>
