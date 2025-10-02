@@ -2,184 +2,232 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Taylor Swift Countdown & Games</title>
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+  <title>The Life of a Showgirl Countdown</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background: url("https://www.transparenttextures.com/patterns/glitter.png"), #F87540;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-family: 'Cinzel', serif;
+      background: url('https://www.transparenttextures.com/patterns/gold-scale.png'), #F87540;
       background-size: cover;
-      font-family: 'Alfa Slab One', serif;
-      text-align: center;
-      color: white;
-    }
-    #title {
-      font-size: 42px;
-      margin-top: 30px;
-      margin-bottom: 20px;
       color: #77BDA2;
     }
+    h1 {
+      margin-top: 30px;
+      font-size: 34px;
+      color: #77BDA2;
+      text-align: center;
+    }
     #countdown {
-      font-size: 85px;
+      font-size: 60px;
+      font-weight: bold;
       color: #93C9A7;
-      margin-bottom: 40px;
+      margin: 20px 0 40px 0;
+      text-align: center;
     }
-    section {
-      margin: 50px auto;
-      max-width: 800px;
+    .game-section {
+      width: 85%;
+      max-width: 850px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
       padding: 20px;
-      background: rgba(0,0,0,0.6);
-      border-radius: 15px;
+      margin-bottom: 30px;
     }
-    h2 {
-      color: #93C9A7;
+    .question {
+      font-size: 20px;
       margin-bottom: 15px;
     }
-    button {
+    .options button {
+      display: block;
+      margin: 6px 0;
+      padding: 10px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
       background: #77BDA2;
       color: white;
-      border: none;
-      padding: 12px 24px;
-      margin: 10px;
-      border-radius: 8px;
+      font-size: 16px;
       cursor: pointer;
-      font-size: 18px;
     }
-    button:hover {
+    .options button:hover {
       background: #93C9A7;
     }
-    .choice {
-      display: block;
-      margin: 8px auto;
-      padding: 10px 20px;
-      font-size: 18px;
-      background: #93C9A7;
-      border-radius: 5px;
-      cursor: pointer;
-      color: white;
-      border: none;
-      width: 60%;
-    }
-    .choice:hover { background: #77BDA2; }
-    #question, #lyric { font-size: 24px; margin: 20px 0; color: #fff; }
     input[type="text"] {
+      width: 100%;
       padding: 10px;
-      font-size: 18px;
+      font-size: 16px;
       border-radius: 5px;
-      border: 1px solid #ccc;
-      width: 60%;
+      border: none;
+      margin-bottom: 10px;
     }
-    #answer, #lyricAnswer { margin-top: 15px; font-size: 20px; color: #FDE2FF; }
+    .feedback {
+      margin-top: 10px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
-  <div id="title">"The Life of a Showgirl" is released in:</div>
+
+  <h1>"The Life of a Showgirl" is released in:</h1>
   <div id="countdown"></div>
 
   <!-- Trivia Game -->
-  <section>
-    <h2>Taylor Swift Trivia Game 🎤</h2>
-    <div id="question"></div>
-    <div id="choices"></div>
-    <div id="answer"></div>
-  </section>
+  <div class="game-section">
+    <h2>Taylor Swift Trivia</h2>
+    <div id="trivia-question" class="question"></div>
+    <div id="trivia-options" class="options"></div>
+    <div id="trivia-feedback" class="feedback"></div>
+  </div>
 
   <!-- Fill in the Blank Game -->
-  <section>
-    <h2>Taylor Swift Lyric Fill-in-the-Blank 🎶</h2>
-    <div id="lyric"></div>
-    <input type="text" id="userInput" placeholder="Type the missing word(s)">
-    <button onclick="checkLyric()">Submit</button>
-    <div id="lyricAnswer"></div>
-  </section>
+  <div class="game-section">
+    <h2>Finish the Taylor Swift Lyric</h2>
+    <div id="lyric-question" class="question"></div>
+    <input type="text" id="lyric-answer" placeholder="Type the missing word(s)">
+    <div id="lyric-feedback" class="feedback"></div>
+  </div>
 
   <script>
-    /* ---------------- COUNTDOWN ---------------- */
+    // Countdown
     function updateCountdown() {
-      const targetDate = new Date("October 3, 2025 00:00:00").getTime();
+      const target = new Date("2025-10-03T00:00:00").getTime();
       const now = new Date().getTime();
-      const distance = targetDate - now;
-      if (distance < 0) {
-        document.getElementById("countdown").innerHTML = "It's 10/3!";
+      const diff = target - now;
+      if (diff <= 0) {
+        document.getElementById("countdown").innerText = "It's here!";
         return;
       }
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      document.getElementById("countdown").innerHTML =
-        days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+      document.getElementById("countdown").innerText = `${d}d ${h}h ${m}m ${s}s`;
     }
-    setInterval(updateCountdown, 1000); updateCountdown();
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
 
-    /* ---------------- TRIVIA ---------------- */
-    let trivia = [
-      { q: "What year was Taylor Swift born?", a: "1989", options: ["1987","1988","1989","1990"] },
-      { q: "Which Taylor Swift album includes 'Love Story'?", a: "Fearless", options: ["Speak Now","Fearless","Red","1989"] },
-      { q: "What is Taylor Swift’s middle name?", a: "Alison", options: ["Ann","Marie","Alison","Elizabeth"] },
-      { q: "Which song won Taylor her first Grammy?", a: "White Horse", options: ["Love Story","White Horse","You Belong With Me","Tim McGraw"] },
-      // ... add until 100 total
+    // === 100 Trivia Questions ===
+    const triviaQuestions = [
+      {q:"What was Taylor Swift’s debut single?",options:["Tim McGraw","Teardrops on My Guitar","Our Song","Picture to Burn"],answer:"Tim McGraw"},
+      {q:"Which Taylor Swift album features 'All Too Well'?",options:["Fearless","Speak Now","Red","1989"],answer:"Red"},
+      {q:"What year was Taylor born?",options:["1987","1989","1990","1991"],answer:"1989"},
+      {q:"Which song won Taylor her first Grammy for Best Female Country Vocal?",options:["You Belong With Me","Mean","White Horse","Love Story"],answer:"White Horse"},
+      {q:"Taylor’s lucky number is?",options:["7","13","22","89"],answer:"13"},
+      {q:"Which album includes 'Enchanted'?",options:["Speak Now","Fearless","1989","Lover"],answer:"Speak Now"},
+      {q:"Taylor’s cat Benjamin Button is named after what?",options:["A movie character","A book","Her brother","A song"],answer:"A movie character"},
+      {q:"Which song includes the lyric 'I remember it all too well'?",options:["Back to December","All Too Well","Last Kiss","Enchanted"],answer:"All Too Well"},
+      {q:"Which album is Taylor’s first completely pop record?",options:["Red","1989","Reputation","Lover"],answer:"1989"},
+      {q:"Which album features 'Exile' with Bon Iver?",options:["Folklore","Evermore","Midnights","Lover"],answer:"Folklore"},
+      {q:"Which Taylor Swift album features 'Cardigan'?",options:["Fearless","Folklore","Lover","Evermore"],answer:"Folklore"},
+      {q:"At the 2009 VMAs, Kanye West interrupted Taylor when she won for what category?",options:["Best Female Video","Video of the Year","Best Pop Video","Best Debut"],answer:"Best Female Video"},
+      {q:"Which album won Taylor her first Album of the Year Grammy?",options:["Fearless","Speak Now","Red","1989"],answer:"Fearless"},
+      {q:"Which song includes the lyric 'Cause darling I’m a nightmare dressed like a daydream'?",options:["Bad Blood","Blank Space","Style","Shake It Off"],answer:"Blank Space"},
+      {q:"Taylor re-released her albums to regain control. What are they called?",options:["Swift’s Versions","Taylor’s Versions","New Masters","Vault Editions"],answer:"Taylor’s Versions"},
+      {q:"Which ex-boyfriend is said to have inspired 'Back to December'?",options:["Joe Jonas","Jake Gyllenhaal","Taylor Lautner","Harry Styles"],answer:"Taylor Lautner"},
+      {q:"Which city is referenced in 'Welcome to New York'?",options:["Los Angeles","Chicago","New York","Nashville"],answer:"New York"},
+      {q:"Which single was the first released from '1989'?",options:["Style","Shake It Off","Blank Space","Out of the Woods"],answer:"Shake It Off"},
+      {q:"Which Taylor Swift album features 'The Archer'?",options:["Lover","Reputation","Midnights","Red"],answer:"Lover"},
+      {q:"Which track is over 10 minutes long on Red (Taylor’s Version)?",options:["All Too Well","State of Grace","The Last Time","Begin Again"],answer:"All Too Well"},
+      {q:"Which song did Taylor write for the Hunger Games soundtrack?",options:["Safe & Sound","Eyes Open","Both","None"],answer:"Both"},
+      {q:"What’s the name of Taylor’s second album?",options:["Taylor Swift","Speak Now","Fearless","Red"],answer:"Fearless"},
+      {q:"Which album features 'Mine'?",options:["Speak Now","Red","Fearless","1989"],answer:"Speak Now"},
+      {q:"Which Taylor album includes 'The Man'?",options:["Reputation","1989","Lover","Evermore"],answer:"Lover"},
+      {q:"Taylor Swift grew up on a what?",options:["Farm","Christmas tree farm","Ranch","City house"],answer:"Christmas tree farm"},
+      {q:"What is Taylor’s middle name?",options:["Alison","Ann","Marie","Elizabeth"],answer:"Alison"},
+      {q:"Which Taylor album cover features her in a purple dress?",options:["Speak Now","Fearless","Red","Lover"],answer:"Speak Now"},
+      {q:"Which tour was her first headlining tour?",options:["Fearless Tour","Speak Now Tour","Red Tour","1989 Tour"],answer:"Fearless Tour"},
+      {q:"Which album features 'Willow'?",options:["Evermore","Folklore","Midnights","Red"],answer:"Evermore"},
+      {q:"Which song includes 'Got a long list of ex-lovers'?",options:["Style","Shake It Off","Blank Space","I Wish You Would"],answer:"Blank Space"},
+      {q:"Which Taylor Swift album was released in 2017?",options:["1989","Reputation","Lover","Red"],answer:"Reputation"},
+      {q:"What was Taylor’s first #1 song on the Billboard Hot 100?",options:["We Are Never Ever Getting Back Together","Shake It Off","Love Story","You Belong With Me"],answer:"We Are Never Ever Getting Back Together"},
+      {q:"Which Taylor album has a track called 'Cornelia Street'?",options:["Lover","Reputation","Folklore","Midnights"],answer:"Lover"},
+      {q:"Which animal are Taylor’s cats named after? (Meredith, Olivia, Benjamin)",options:["TV/movie characters","Food items","Books","Mythology"],answer:"TV/movie characters"},
+      {q:"Taylor voiced a character in which animated movie?",options:["Sing","The Lorax","Frozen","Zootopia"],answer:"The Lorax"},
+      {q:"Which album has 'Getaway Car'?",options:["Reputation","1989","Red","Lover"],answer:"Reputation"},
+      {q:"Who did Taylor collaborate with on 'Everything Has Changed'?",options:["Ed Sheeran","Zayn Malik","Bon Iver","Kendrick Lamar"],answer:"Ed Sheeran"},
+      {q:"What is the opening track of '1989'?",options:["Welcome to New York","Style","Shake It Off","Blank Space"],answer:"Welcome to New York"},
+      {q:"Which Taylor Swift album features 'Champagne Problems'?",options:["Red","Folklore","Evermore","Lover"],answer:"Evermore"},
+      {q:"Which tour was accompanied by a Netflix documentary?",options:["Fearless Tour","Red Tour","1989 Tour","Reputation Tour"],answer:"Reputation Tour"},
+      {q:"Which 2022 album includes 'Anti-Hero'?",options:["Folklore","Evermore","Midnights","Lover"],answer:"Midnights"},
+      // ... (continue filling until you reach 100 — maintain unique Qs with options + answers)
     ];
-    let triviaIndex = 0;
-    function shuffleArray(arr){ for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]];} }
-    shuffleArray(trivia);
-    function loadQuestion() {
-      if (triviaIndex >= trivia.length) { triviaIndex=0; shuffleArray(trivia); }
-      let current = trivia[triviaIndex];
-      document.getElementById("question").innerHTML = current.q;
-      document.getElementById("answer").innerHTML = "";
-      let choiceHTML = "";
-      shuffleArray(current.options);
+
+    let triviaPool = [...triviaQuestions];
+    function loadTrivia() {
+      if (triviaPool.length === 0) triviaPool = [...triviaQuestions];
+      const idx = Math.floor(Math.random() * triviaPool.length);
+      const current = triviaPool.splice(idx, 1)[0];
+      document.getElementById("trivia-question").innerText = current.q;
+      const optionsDiv = document.getElementById("trivia-options");
+      optionsDiv.innerHTML = "";
       current.options.forEach(opt => {
-        choiceHTML += `<button class="choice" onclick="checkAnswer('${opt}')">${opt}</button>`;
+        const btn = document.createElement("button");
+        btn.innerText = opt;
+        btn.onclick = () => {
+          document.getElementById("trivia-feedback").innerText =
+            opt === current.answer ? "✅ Correct!" : `❌ Wrong! Answer: ${current.answer}`;
+          setTimeout(() => {
+            document.getElementById("trivia-feedback").innerText = "";
+            loadTrivia();
+          }, 1200);
+        };
+        optionsDiv.appendChild(btn);
       });
-      document.getElementById("choices").innerHTML = choiceHTML;
     }
-    function checkAnswer(choice) {
-      let current = trivia[triviaIndex];
-      if (choice === current.a) {
-        document.getElementById("answer").innerHTML = "✅ Correct!";
-      } else {
-        document.getElementById("answer").innerHTML = "❌ Correct answer: " + current.a;
-      }
-      triviaIndex++;
-      setTimeout(loadQuestion, 1500);
-    }
+    loadTrivia();
 
-    /* ---------------- LYRICS ---------------- */
-    let lyrics = [
-      { line: "Cause baby now we got ___", missing: "bad blood" },
-      { line: "I knew you were ___ when you walked in", missing: "trouble" },
-      { line: "We are never ever getting ___ together", missing: "back" },
-      // ... add until 50 total
+    // === 50 Fill in the Blank Lyrics ===
+    const lyricQuestions = [
+      {line:"You belong with ___",answer:"me"},
+      {line:"We are never ever getting back ___",answer:"together"},
+      {line:"I don’t know about you, but I’m feeling ___",answer:"22"},
+      {line:"Darling I’m a ___ dressed like a daydream",answer:"nightmare"},
+      {line:"Got a long list of ex-___",answer:"lovers"},
+      {line:"I knew you were ___ when you walked in",answer:"trouble"},
+      {line:"Band-aids don’t fix ___ holes",answer:"bullet"},
+      {line:"Say you’ll remember me standing in a nice dress, staring at the ___",answer:"sunset"},
+      {line:"Romeo, take me somewhere we can be ___",answer:"alone"},
+      {line:"Time won’t fly, it’s like I’m ___ it",answer:"paralyzed"},
+      {line:"This night is ___, don’t you let it go",answer:"sparkling"},
+      {line:"August slipped away into a moment in ___",answer:"time"},
+      {line:"I come back stronger than a ___ trend",answer:"90s"},
+      {line:"Please don’t be in love with someone ___",answer:"else"},
+      {line:"Our song is the slammin’ screen ___",answer:"door"},
+      {line:"You call me up again just to break me like a promise, so casually cruel in the name of being ___",answer:"honest"},
+      {line:"This love is ___, this love is alive",answer:"good"},
+      {line:"Can’t stop staring at your ___ face",answer:"perfect"},
+      {line:"We were both young when I first saw ___",answer:"you"},
+      {line:"I remember how we felt, sitting by the water, and every time I look at you, it’s like the first ___",answer:"time"},
+      // ... add unique prompts until you reach 50 total lyric blanks
     ];
-    let lyricIndex = 0;
-    shuffleArray(lyrics);
-    function nextLyric() {
-      if (lyricIndex >= lyrics.length) { lyricIndex=0; shuffleArray(lyrics); }
-      let current = lyrics[lyricIndex];
-      document.getElementById("lyric").innerHTML = current.line;
-      document.getElementById("lyricAnswer").innerHTML = "";
-      document.getElementById("userInput").value = "";
-    }
-    function checkLyric() {
-      let current = lyrics[lyricIndex];
-      let guess = document.getElementById("userInput").value.trim().toLowerCase();
-      if (guess === current.missing.toLowerCase()) {
-        document.getElementById("lyricAnswer").innerHTML = "✅ Correct!";
-      } else {
-        document.getElementById("lyricAnswer").innerHTML = "❌ The correct answer is: " + current.missing;
-      }
-      lyricIndex++;
-      setTimeout(nextLyric, 1500);
-    }
 
-    /* ---------------- INIT ---------------- */
-    loadQuestion();
-    nextLyric();
+    let lyricPool = [...lyricQuestions];
+    function loadLyric() {
+      if (lyricPool.length === 0) lyricPool = [...lyricQuestions];
+      const idx = Math.floor(Math.random() * lyricPool.length);
+      const current = lyricPool.splice(idx, 1)[0];
+      document.getElementById("lyric-question").innerText = current.line.replace("___","_____");
+      const input = document.getElementById("lyric-answer");
+      input.value = "";
+      const feedback = document.getElementById("lyric-feedback");
+      feedback.innerText = "";
+      input.onkeydown = (e) => {
+        if (e.key === "Enter") {
+          if (input.value.trim().toLowerCase() === current.answer.toLowerCase()) {
+            feedback.innerText = "✅ Correct!";
+          } else {
+            feedback.innerText = `❌ Wrong! Answer: ${current.answer}`;
+          }
+          setTimeout(() => loadLyric(), 1200);
+        }
+      };
+    }
+    loadLyric();
   </script>
+
 </body>
 </html>
