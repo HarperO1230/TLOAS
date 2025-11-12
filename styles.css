@@ -1,6 +1,6 @@
 body {
   font-family: "Poppins", sans-serif;
-  background: linear-gradient(to bottom right, #f8d7ff, #e3b8ff);
+  background: linear-gradient(to bottom right, #f7d6ff, #d7b4f3);
   color: #4a2c6a;
   text-align: center;
   margin: 0;
@@ -16,6 +16,11 @@ header {
 h1 {
   font-size: 2.5em;
   margin-bottom: 0.3em;
+  color: #5b2e91;
+}
+
+p {
+  font-size: 1.1em;
 }
 
 .gallery {
@@ -27,9 +32,14 @@ h1 {
 
 .gallery img {
   width: 80%;
-  max-width: 800px;
-  border-radius: 10px;
-  box-shadow: 0 0 20px rgba(150, 0, 255, 0.2);
+  max-width: 850px;
+  border-radius: 12px;
+  box-shadow: 0 0 25px rgba(150, 0, 255, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.gallery img:hover {
+  transform: scale(1.03);
 }
 
 footer {
@@ -37,4 +47,5 @@ footer {
   background-color: rgba(255, 255, 255, 0.4);
   font-size: 0.9em;
   border-top: 2px solid #d2a6ff;
+  color: #4a2c6a;
 }
